@@ -1,0 +1,494 @@
+/**
+ * Copyright UCAR (c) 1992 - 2016
+ * University Corporation for Atmospheric Research(UCAR)
+ * National Center for Atmospheric Research(NCAR)
+ * Research Applications Laboratory(RAL)
+ * P.O.Box 3000, Boulder, Colorado, 80307-3000, USA
+ *
+ * The Climate Inspector is subject to the terms of the BSD 3-Clause License: http://choosealicense.com/licenses/bsd-3-clause
+ * Third party libraries are each subject to their respective licenses (see documentation for details)
+ */
+ 
+/**
+ * Initialize the GUI
+ */
+ 
+//var domainDir = 'bihar'
+var domainDir = 'biharData'
+var d = 'gbm'
+var dataLoc = "../"
+var graphNepalDate;
+
+var graphDate = ''
+
+ function getNepalDate(a,m) {
+ url = "../biharData/drawNepalFiles.xml"
+		$.ajax({
+				url: url,
+				type: 'GET',
+				async: false,
+				dataType: 'xml',
+				data: {id: 43},
+				success: function(xml){
+				var course_data; // variable to hold data in once it is loaded
+				var arrayList = []
+				$.get(url, function(xml) { // get the courses.xml file
+					course_data = xml; // save the data for future use
+								// so we don't have to call the file again
+					$('listing', course_data).each(function() { // find courses in data
+				// dynamically create a new option element
+				// make its text the value of the "title" attribute in the XML
+				// and append it to the courses select
+				var ave = $(this).find('ave').text();
+       
+       //alert(ave)
+				
+				if (ave == a) {
+					var model = $(this).find('model').text();
+            
+					if (model == m){
+             graphNepalDate = $(this).find('recentDate').text() 
+          }
+				}						
+			});
+				// note: jQuery's filter params are opposite of javascript's native implementation :(
+
+		}, 'xml'); // specify what format the request will return - XML
+	 $('#listing').change(function() { // bind a trigger to when the
+										  // courses select changes
+			} );
+		}});
+ }
+ 
+
+/* 7: create the time sequence model */
+	function createPlot(graphDate,feature) {
+		var now        = new Date();
+		now.setHours( 0, 0, 0, 0 );
+		var minTime    = new Date( now.getTime() - 86400000*61 );
+		var maxTime    = new Date( now.getTime() + 86400000 );
+	
+
+		$('#plot3Text').get(0).style.display = "none";
+		//$('#plot3Div').get(0).style.display = "block";
+		$('#plot3Div').get(0).style.display = "block";
+
+		var plot = new ral.timeSeries.jqplot.JQPlotTimeSeries(
+			{
+			  target: 'plot3Div',
+			  title: 'Forecasted Stage at ' + feature.properties.site_name,
+			  dateFormat: "%b %d",
+			  useUtc: false,
+			  tickInterval: 86400000,
+			  // ticks: 14,
+			  start: new Date(),
+			  end: new Date( new Date().getMilliseconds() + 86400000 ),
+			  seriesOrder: [0,1,2,3,4,5,6,7,8,9],
+			  seriesColors:['#1663e0', '#202021', '#c61337','#12c627','#e5e52d','#1663e0', '#202021', '#c61337','#12c627','#e5e52d' ], // darkorange, blue, orange Jenn: change as desired
+			  //seriesColors:['#202021', '#c61337','#12c627','#e5e52d','#1663e0', '#202021', '#c61337','#12c627','#e5e52d' ], // darkorange, blue, orange Jenn: change as desired
+			  // yRange: [0, null ],
+			  blankMessage: "Loading data...",
+			  legendPosition: "outsideGrid",
+			  // dataDownloadLinkTarget: "plot3Download"
+			 
+			} );
+
+		var date = new Date();
+		date.setDate(date.getDate() )
+		
+		var tsUrl = encodeURI( "../data/Forecast_tfq_CSV/" + feature.properties.site_code_
+		 + "/Stfq_" + feature.properties.site_code_ + "_in" + date.getFullYear()
+		 + ( '0' + (date.getMonth()+1) ).slice(-2) + ( '0' + date.getDate() ).slice(-2) + "00Z.csv" );
+ 
+ 	
+	
+		var dataSource = new ral.timeSeries.FcstTimeSeriesEnsembleDataSource(
+		//var dataSource = new ral.timeSeries.jqplot.JQPlotMultiDataSource(
+			{
+			  dataUrl: tsUrl,
+			 // name: name,
+			//  label: 'Flood Forecast',
+			//  color: 'blue',
+			  yaxisLabel: 'Stage (m)',
+			//  min: 0.0,
+			  badValue: -9999.00,
+			  convertToLocaltime: false,
+			  dataStartLineNumber: 1,
+			   plot: plot,
+			  seriesOptions: [
+                { label: "10% Probability" },
+				{ label: "20% Probability" },
+				{ label: "30% Probability" },
+				{ label: "40% Probability" },
+				{ label: "50% Probability" },
+				{ label: "60% Probability" },
+				{ label: "70% Probability" },
+				{ label: "80% Probability" },
+                { label: "90% Probability" },
+				{ label: "Observed" }
+            ]
+			 
+			  // dataFieldRange: [0,n]
+			}
+		);
+
+		plot.addDataSource( dataSource );
+		plot.sequenceChanged(null); // Triggers re-retrieval of data sources
+		// plot.redraw();
+		
+		};  //update
+	
+function setDate(graph) {
+  graphDate = graph
+}
+
+	function retrieveGraphNepal(graphDate,sub,subName) {
+		//nepal_points_egrr_catchment1420_2018090400_acc5d
+		
+		threedays = threeDate()
+		aggregation = 'acc24h'
+		//document.getElementById("graphText").innerHTML = "Precipitation (mm/day) from most recent available TIGGE forecast.  The red line represents the median of all forecast ensemble members.  The upper black line shows the 90th percentile ensemble member, and the lower black line shows the 10th percentile ensemble member.  Water levels above or below these bounds each have a 10% probability of occurrence."
+		var myDate = new Date(graphDate);
+    //alert(myDate)
+		modelName = getSelectedModelValues()
+		//gbm_z1_cwao_2018091600_d9_acc24h
+		fileParts = modelName.split("_")
+      if (fileParts.length == 6) { //satellite
+		  a = fileParts[4]
+      m = fileParts[2]
+   } else {
+     a = fileParts[5]
+     m = fileParts[2]
+   }
+   
+		model = fileParts[2]
+		//date = fileParts[3]
+   date = myDate - 1
+   //alert(date)
+		ave = fileParts[4]
+   getNepalDate(a,m)
+		today = Today()
+	   
+		//timeDownload = "nepal_points_"+model+"_catchment"+ sub +"_"+ date +"_"+ave+".txt"
+		timeDownload = "nepal_points_" + model + "_catchment"+ sub +"_"+ graphNepalDate +"_" + aggregation +".txt"
+		layerDownload = dataLoc+domainDir+'/graph/'+timeDownload		
+		graph1 = "#graph1"
+		//alert ("We will graph " + layerDownload)
+		//return layerDownload
+		titleName = 'Precipitation forecast ' + subName 
+		createPlotForecast(layerDownload,titleName)	
+    
+    
+    document.getElementById("download").style.visibility="visible"; 
+		$(".download").attr("href", layerDownload);				
+	}
+
+   
+function retrieveGraph(graphD,sub,name) {
+   
+   if ($("input[name='raingauge']").length > 0) {
+			forecastdateT = document.getElementById("Model")
+			forecastdatetime = forecastdateT.options[forecastdateT.selectedIndex].value
+			mylayer = forecastdatetime.trim()
+			res = mylayer.split("_")
+			model = res[2]
+      type = ""
+			if (res.length == 6) { //satellite
+				ave = res[4]
+        type = "sat"
+        
+			} else {  //forecast
+				
+				ave = res[5]
+        today = res[4]
+        type = "fore"
+			}
+			
+		} else {
+      
+			type = "fore"
+			model = 'multimodel'
+			ave = 'acc24h'
+		}
+   mapZoom = map.getZoom()
+		if (mapZoom <= 6) {
+      if (type=="sat") {
+        titleName = 'Recent observed rainfall'
+				zoomLevel = 'z1'
+				//timeDownload = 'ea_z1_multimodel_catchment1728_2018091300_acc24h.txt'
+				timeDownload = "bihar_" + zoomLevel + "_" + model + "_catchment"+ sub + "_"+graphD+"_"+ ave +".txt"
+      
+      } else {
+				titleName = 'Rainfall forecast ' 
+				zoomLevel = 'z1'
+				//timeDownload = 'ea_z1_multimodel_catchment1728_2018091300_acc24h.txt'
+				timeDownload = "bihar_" + zoomLevel + "_" + model + "_catchment"+ sub + "_"+graphD+"_"+ ave +".txt"
+      }
+		} else if (mapZoom > 6){
+       if (type=="sat") {
+        titleName = 'Recent observed rainfall'
+				zoomLevel = 'z2'
+				//timeDownload = 'ea_z1_multimodel_catchment1728_2018091300_acc24h.txt'
+				timeDownload = "bihar_" + zoomLevel + "_" + model + "_catchment"+ sub + "_"+graphD+"_"+ ave +".txt"
+      
+      } else {
+				titleName = 'Rainfall forecast  ' 
+				zoomLevel = 'z2'
+				//timeDownload = 'ea_z2_cwao_catchment117104_2018091400_acc24h.txt'
+				timeDownload = "bihar_" + zoomLevel + "_" + model + "_catchment"+ sub +"_"+ graphD +"_"+ ave +".txt"
+      }
+		}
+		//alert(timeDownload)
+		
+		
+		layerDownload = dataLoc+domainDir+'/graph/'+timeDownload
+    graph1 = "#graph1"
+		//return layerDownload
+   if (type == 'sat') {
+     createPlotSat(layerDownload,titleName)
+   } else {
+		createPlotForecast(layerDownload,titleName)
+   }
+    
+    document.getElementById("download").style.visibility="visible"; 
+		$(".download").attr("href", layerDownload);	
+   
+   
+   // document.getElementById("graphText").style.visibility="visible";		
+	}
+	
+		function retrieveGraphSeasonal(sub,color) {
+	
+		forecastdateT = document.getElementById("Model")
+		forecastdatetime = forecastdateT.options[forecastdateT.selectedIndex].value
+		mylayer = forecastdatetime.trim()
+		res = mylayer.split("_")
+		mapZoom = map.getZoom()
+		today = Today()
+  
+
+    model = res[2]  
+    ave = res[5]
+		
+			if (mapZoom <= 6) {
+      
+				titleName = 'Rainfall forecast ' 
+				zoomLevel = 'z1'
+		
+				timeDownload = "bihar_" + zoomLevel + "_" + model + "_catchment"+ sub + "_"+ ave +".txt"
+      
+		} else if (mapZoom > 6){
+       
+				titleName = 'Rainfall forecast  ' 
+				zoomLevel = 'z2'
+				timeDownload = "bihar_" + zoomLevel + "_" + model + "_catchment"+ sub +"_"+  ave +".txt"
+      
+		}
+	
+		layerDownload = dataLoc+domainDir+'/graph/'+timeDownload
+    graph1 = "#graph1"
+	
+		createPlotForecast(layerDownload,titleName)
+   
+		document.getElementById("download").style.visibility="visible"; 
+		$(".download").attr("href", layerDownload);
+					
+	}
+	
+	function getSelectedAveValues() {
+	//get the average period
+	aveT = document.getElementById("aveTime")
+	ave = aveT.options[aveT.selectedIndex].value
+	return ave
+	}
+	
+	function getSelectedModelValues() {
+	//get the average period
+	modelEle = document.getElementById("Model")
+	model = forecastdateT.options[modelEle.selectedIndex].value
+	return model
+	
+	}
+	
+			/* 7: create the time sequence model */
+	function createPlotForecast(gbmPlotUrl,titleName) {
+		//alert(gbmPlotUrl)
+		var now        = new Date();
+		now.setHours( 0, 0, 0, 0 );
+		var minTime    = new Date( now.getTime() - 86400000*61 );
+		var maxTime    = new Date( now.getTime() + 86400000 );
+	
+
+		$('#plot3Text').get(0).style.display = "none";
+		//$('#plot3Div').get(0).style.display = "block";
+		$('#plot3Div').get(0).style.display = "block";
+
+		//var updatePlot = function ( feature ) {
+		var plot = new ral.timeSeries.jqplot.JQPlotTimeSeries(
+          {
+            target: 'plot3Div',
+            //title: 'Precipitation Forecast', // + feature.get( 'site_name' ) + ' subbasin', // Jenn: change as desired
+            title: titleName,
+			dateFormat: "%b %d",
+            useUtc: false,
+            tickInterval: 86400000,
+			//tickInterval: 172800000,
+            blankMessage: "Loading data...",
+            legendPosition: "outsideGrid",
+            dataDownloadLinkTarget: "plot3Download",
+            seriesOrder: [2, 0, 1],
+            seriesColors:['#1663e0', '#202021', '#1663e0' ], // darkorange, blue, orange Jenn: change as desired
+            fillBetween: {
+              series1: 0, // Required, if missing won't fill.
+              series2: 2, // Required, if  missing won't fill.
+              color: "#c9c9ef", // (lightest salmon Jenn: change as desired) Optional, defaults to fillColor of series1.
+              baseSeries: 1 // Optional.  Put fill on a layer below this series index. Defaults to 0 (first series).
+            },
+            axesDefaults: {
+				autoscale: false,
+				min: 0.0,
+				max: null,
+				tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+				tickOptions: {
+					angle: -90,
+					fontSize: '10pt'
+				}
+			}
+          });
+
+  var dataSource = new ral.timeSeries.jqplot.JQPlotMultiDataSource(
+          {
+            dataUrl: gbmPlotUrl,
+            yaxisLabel: 'Precip (mm/day)',
+            badValue: -9999.00,
+            convertToLocaltime: false,
+            dataStartLineNumber: 0,
+            plot: plot,
+            markerOptions: {show: false},
+            seriesOptions: [
+                { label: "50% Probability" },
+                { label: "10% Probability" },
+                { label: "90% Probability" }
+            ]
+          }
+  );
+  $('#plot3Download' ).attr("href", gbmPlotUrl );
+
+	plot.addDataSource( dataSource );
+	plot.sequenceChanged(null); // Triggers re-retrieval of data sources
+	}
+ 
+ 			/* 7: create the time sequence model */
+	function createPlotSat(gbmPlotUrl,titleName) {
+		//alert(gbmPlotUrl)
+		var now        = new Date();
+		now.setHours( 0, 0, 0, 0 );
+		var minTime    = new Date( now.getTime() - 86400000*61 );
+		var maxTime    = new Date( now.getTime() + 86400000 );
+	
+
+		$('#plot3Text').get(0).style.display = "none";
+		//$('#plot3Div').get(0).style.display = "block";
+		$('#plot3Div').get(0).style.display = "block";
+
+		//var updatePlot = function ( feature ) {
+		var plot = new ral.timeSeries.jqplot.JQPlotTimeSeries(
+          {
+            target: 'plot3Div',
+            //title: 'Precipitation Forecast', // + feature.get( 'site_name' ) + ' subbasin', // Jenn: change as desired
+            title: titleName,
+			dateFormat: "%b %d",
+            useUtc: false,
+            tickInterval: 86400000,
+			//tickInterval: 172800000,
+            blankMessage: "Loading data...",
+            legendPosition: "outsideGrid",
+            dataDownloadLinkTarget: "plot3Download",
+            seriesOrder: [2, 0, 1],
+            seriesColors:['#1663e0', '#202021', '#1663e0' ], // darkorange, blue, orange Jenn: change as desired
+            fillBetween: {
+              series1: 0, // Required, if missing won't fill.
+              series2: 2, // Required, if  missing won't fill.
+              color: "#c9c9ef", // (lightest salmon Jenn: change as desired) Optional, defaults to fillColor of series1.
+              baseSeries: 1 // Optional.  Put fill on a layer below this series index. Defaults to 0 (first series).
+            },
+            axesDefaults: {
+				autoscale: false,
+				min: 0.0,
+				max: null,
+				tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+				tickOptions: {
+					angle: -90,
+					fontSize: '10pt'
+				}
+			}
+          });
+
+  var dataSource = new ral.timeSeries.jqplot.JQPlotMultiDataSource(
+          {
+            dataUrl: gbmPlotUrl,
+            yaxisLabel: 'Precip (mm/day)',
+            badValue: -9999.00,
+            convertToLocaltime: false,
+            dataStartLineNumber: 0,
+            plot: plot,
+            markerOptions: {show: false},
+            seriesOptions: [
+                { label: "Recent observations" },
+                { label: "Climatology upper bound" },
+                { label: "Climatology lower bound" }
+            ]
+          }
+  );
+  $('#plot3Download' ).attr("href", gbmPlotUrl );
+
+	plot.addDataSource( dataSource );
+	plot.sequenceChanged(null); // Triggers re-retrieval of data sources
+	}
+	
+
+		//This function returns todays date in YYYYMMDD00
+	function threeDate() {
+		var today = new Date();
+			
+		today.setDate(today.getDate() - 3)
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+			
+		if(dd<10) {
+			dd='0'+dd
+		} 
+
+		if(mm<10) {
+			mm='0'+mm
+		} 
+		year= String(yyyy)
+		month = String(mm)
+		day = String(dd)
+		today2 = year+month+day+"00"
+		return today2
+	}
+		
+function Today() {
+		var today = new Date();
+			
+		today.setDate(today.getDate()-1)
+		//today.setDate(today.getDate() - 4)
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+			
+		if(dd<10) {
+			dd='0'+dd
+		} 
+
+		if(mm<10) {
+			mm='0'+mm
+		} 
+		year= String(yyyy)
+		month = String(mm)
+		day = String(dd)
+		today2 = year+month+day+"00"
+		return today2
+	}
