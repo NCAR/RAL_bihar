@@ -1,0 +1,28 @@
+.TimeSeriesPlot
+{
+  text-align: center
+}
+
+.TimeSeriesPlot_blankMessage
+{
+  font-size  : 14pt;
+  font-family: Avenir, Arial, Helvetica, sans-serif;
+  color      : orange;
+}
+
+.TimeSeriesPlot_loadingMessage
+{
+  font-size  : 20pt;
+  position: absolute;
+  top: 75px;
+  left:75px;
+  font-family: Avenir, Arial, Helvetica, sans-serif;
+  color      : orange;
+}
+
+.TimeSeriesPlot_nodataMessage
+{
+  font-size  : 20pt;
+  font-family: Avenir, Arial, Helvetica, sans-serif;
+  color      : red;
+}
