@@ -1,0 +1,183 @@
+.DefaultLayerControls
+{
+  border-radius: 5px;
+  border       : 1px solid black;
+  margin       : 10px;
+  padding      : 10px;
+  overflow     : hidden;
+  overflow-y   : auto;
+}
+
+
+.DefaultLayerControls_displayName
+{
+  font-family : Avenir, Arial, Helvetica, sans-serif;
+  font-size   : 12pt;
+  color       : #555;
+  margin-left : 10px;
+}
+
+
+.DefaultLayerControls_textualInfo
+{
+  font-family : Avenir, Arial, Helvetica, sans-serif;
+  font-size   : 10pt;
+  font-style  : italic;
+  color       : #888;
+  margin-left : 30px;
+}
+
+
+.DefaultLayerControls_opacitySlider
+{
+  margin-left   : 30px;
+  margin-top    : 5px;
+  margin-bottom : 5px;
+  width         : 160px;
+}
+
+
+.DefaultLayerControls_colorLegend
+{
+  margin-left : 30px;
+  margin-top  : 10px;
+}
+
+
+.DefaultLayerControls_colorPaletteTable
+{
+  margin : 0px auto;
+}
+
+
+.DefaultLayerControls_dialogMinMaxText
+{
+  border-radius: 5px;
+}
+
+
+.D3JSTimeSelector
+{
+  border     : 1px solid black;
+  margin-top : 8px;
+  padding    : 10px;
+  text-align : center;
+  font-family: Avenir, Arial, Helvetica, sans-serif;
+  border-radius: 5px;
+}div
+{
+  font-family: Avenir, Arial, Helvetica, sans-serif;
+  font-size: 1.0em;
+}
+
+.TimeSelectorConfiguration-RadioButton
+{
+  font-family: Avenir, Arial, Helvetica, sans-serif;
+  margin-left: 30px;
+}
+
+.TimeSelectorConfiguration-ConfigDetails
+{
+  width:90%;
+  height: 90%;
+  border: 1px solid black;
+  margin: 10px;
+  padding: 10px;
+}
+
+.TimeSelectorConfiguration-DateChooser
+{
+}.ForecastSelector_title
+{
+    font-family: Avenir, Arial, Helvetica, sans-serif;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-decoration: underline;
+    text-align: center;
+    padding-top: -20px;
+}
+
+
+.ForecastSelector_choice
+{
+    font-family: Avenir, Arial, Helvetica, sans-serif;
+    font-size: 0.8em;
+    display: table;
+    margin:auto;
+} .AnimationController
+ {
+   border       : 1px solid black;
+   border-radius: 5px;
+   margin-top   : 8px;
+   padding      : 10px;
+   width        : 280px;
+   height       : 40px;
+ }
+
+
+.AnimationController_button
+{
+  float : left;
+  margin: 3px;
+}
+
+
+.AnimationController_slider
+{
+  width   : 100px;
+  position: relative;
+  left    : 160px;
+  top     : 7px;
+}
+
+
+.AnimationController_label
+{
+  position   : absolute;
+  text-align : center;
+  font-family: Avenir, Arial, Helvetica, sans-serif;
+  font-size  : 9pt;
+}.TimeLabel
+{
+  border       : 1px solid black;
+  border-radius: 5px;
+  color        : #3333bb;
+  font-family  : Avenir, Arial, Helvetica, sans-serif;
+  font-size    : 14pt;
+  text-align   : center;
+}.CollapsibleLayerControlsMenu_main {
+  width   : 320px;
+  overflow: auto;
+}
+
+.CollapsibleLayerControlsMenu_button {
+  float: right;
+  margin-top:18px;
+  margin-right:20px;
+}
+
+h1.CollapsibleLayerControlsMenu {
+  font-size:16pt;
+}
+
+h2.CollapsibleLayerControlsMenu {
+  font-size:11pt;
+}
+
+.collapsible,
+.collapse-open { }
+.collapse-close { }
+.collapse-open span {
+    display:block;
+    float:left;
+    background:url( "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAzRJREFUeNrsnV1u00AURh1SUYm/BBAPCJDSFXQJzg7MElhCd2CWwA68hIodhB2QZx7SBxBP4KYFVQWl9A6ZVuInzBg54/Hcc6TvzVIzc4+vZyZJk2UAAAAAAAAAAAAAkDiDyF7PvmSc+JwfS+aot6aQHEpqyQ9lqe3YC62FXygs+qYsNIlQUfCNqSg+qSg+SU6CgqI2TpA1QahtoFnkTNj0NOJIsrftP3Ij0N1P8ZszCdEFdgIM5IXn4cgryUxJcaeSA49Dr+eS130frOuQp7YngNrY95yb3uNa7JSK23zpMT+9XgPkHtfMFAsw8+wUvV4EunijWIC3HteMUxdAM8uuXwACKAcBEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEKADfD5DH0tK1FqTZ+198aFv3+5ta1w5HQAQABAAEAAQABAAEAAQABAAVAnwktfaP9o8Ck4VjoKBRwAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgAMQtwLHHNbni+c9bmsNoBZh7XDNVLMC0pTmMGn48+u+o+fHow8z95Qcz0FLB42Bkx1h6FN+kSmHQRda/f/AUS4ptF2cQSIKFZMKauxFHkr1UtoEH1JM5q2jp3qlStRoJFBcfCSj+LzuDBQW/ziLEij9WESrPPXFqqe3YOy38IDIhzOnYOHHpzdn+PAMA6JzYHgF3lcz7KQKseWif+fckQ2U330pyYtcEn7QJYN4VeyrZpQn/5FzyXrLUIMAze+fDn5hO8EFykaoA5q5/QJ3/yZnkXYoCPJHcp75e1LYTbJ2dgKv7UcjW1nNGdoF4mooAjyj+f81ZEgLctlu8FTVtxNBuj09SEMD1X8FXdgv0RfIt8cLelNyxbd519nErBQF2He3fFP+jgsJfYcb52cr+2CHB1s9JQggwdAiwVFT830UwYx93uUsLIYDr2X+m+Dn/NXO//2G6wHmfBeBXQTbzvev5iaEDaBek0/kJIcAFAsQ7PzEIkCFA2o8AOgAdAOgAdAA6ANAB6AB0AKAD0AHoAEAHoANEMD8hPhQ6QADmBwAAAAAAYuFSgAEAO5CIziWAapYAAAAASUVORK5CYII=" ) center center no-repeat;
+    background-size: 18px 18px;
+    padding:10px;
+}
+.collapse-close span {
+    display:block;
+    float:left;
+    background:url( "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABB5JREFUeNrsnVFOE0EYgKdCJFGRqvHBqLGcgCMUT7AeoUfoDcoN4AY9QuMJWk9QfPahPGh80hbUEDCAMzKNgsBMcXd2Zv7vS/4nSHZ2/q//zL/d3SoFAAAAAAAAAAAAAJnTiGw8Gzqamc/5TMd71Dun0DHQMdVxJiym9twLqYmfCEz6dTGRJEKfhF8bfZJP9Ek+kZ0EBUldOILsCUK1gWaT06LpWYg9HetVH+ROoE8/yV+cVogqsBzgRDqeF0d2dIyEJHdTR9fjotcbHW9TP1nXRZ6pvQIojQ3PuUke12anJ7jM9zzmJ+k9QNvjf0aCBRh5VoqkN4Eu3gkWYNfjf5q5CyCZ/boHgADCQQAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEiI5XKq5HyyZ2TAgQCHOzZCui8bTsmBAgELuMSbYA5jayUUTjGalEb21LeRNoSu4sgnHMUi3/qQtg7qfrRDCOjorg3j6pbaB5amanxuPvqAye3KmStqr+wYc1HeMaWr+xPfb/4jpOmwoQ51KQdOnPSQCDeetWN+Dxuoo3fUWzBPzNMEDpH5Y8ZpaAhFrDpFs+CQJUvR/IYt3PWYAqW0NavgT2AFW1hmW1fOwBEl0Ksiv9uQtQZmtIy5fgElBWazgMMD6WgEhbw+xaPqkC3HY/kO26L20JmLO9QOnfDjiuWpcASQIoz9ZwHHhM7AEC0nHsB2YqjptM2ANU2Bpu3fD3LVq+vJeAOYMrxjGoaSzsAWpg7dL1gaGq7lJv1AIsK5mY9u61+vMaVrFlX6oASnripW4CAQEAAQABAAEAAQABEAAQABAAEAAQABCgXHzuxm0Lnv92SXMYrQA+37ZtChZgs6Q5jBp+PPpqxPx49EC573oxJ9oTsBys2XPseSTfRD+Hky5UPO/0TS2KqpPTCCSBeZlyiz33QuzpWM+lDeyST+asT0n3jn6uViOB4OQjAcm/0BlMSPiFXxwplEAKa/1UYNKn9txrTXwjMiHM1bFm5tKba/s8gAoAERDbErAqZN6/IcA5T+ya/1DHkrAP34mOA7sn+CJNAPOt2AsdKxTh3xzp+KhqeCtZHQK8tJ98+BdTCT7pOM1VAPOpf0yeb+RQx4ccBXiu4xH59WJqK0HlhHpDyKpd90/Jrfce6SBEtxBKgKck/1ZzloUA922Ld0JOF2LJtscHOQjgeh3ciW2Bvus4zjyxd3U8sGXede3jXg4CrDjKv0n+ZwGJn2PO86uV/ZlDgsqvk4QQYMkhwL6g5F8WwZx7s84uLYQArrX/UPA6/0O5v/8wVeAoZQHOFFzHz7rnJ4YKIF2QWucnhACnCBDv/MQggEKAvJcAKgAVAKgAVAAqAFABqABUAKACUAGoAEAFoAJEMD8hbgptIADzAwAAAAAAsfBLgAEA3AVb0glPbgoAAAAASUVORK5CYII=" ) center center no-repeat;
+    background-size: 18px 18px;
+    padding:10px;
+}

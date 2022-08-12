@@ -1,0 +1,84 @@
+<div>
+    <p>Configure real-time mode:</p>
+    <div style="border:1px solid black;padding:10px;">
+        <table style="font-family:avenir;">
+            <tr>
+                <td align="right">
+                    Start
+                </td>
+                <td>
+                    <input id="start-value" type="number" style="width:50px;" value="4" min="0" max="60"/>
+                </td>
+                <td>
+                    <select id="start-units">
+                        <option value="d">Days</option>
+                        <option value="h" selected="selected">Hours</option>
+                        <option value="m">Minutes</option>
+                    </select>
+                </td>
+                <td>
+                    <select id="start-reference">
+                        <option value="b" selected="selected">Before Now</option>
+                        <option value="a">After Now</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    End
+                </td>
+                <td>
+                    <input id="end-value" type="number" style="width:50px;" value="1" min="0" max="60"/>
+                </td>
+                <td>
+                    <select id="end-units">
+                        <option value="d">Days</option>
+                        <option value="h" selected="selected">Hours</option>
+                        <option value="m">Minutes</option>
+                    </select>
+                </td>
+                <td>
+                    <select id="end-reference">
+                        <option value="b">Before Now</option>
+                        <option value="a" selected="selected">After Now</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    Selected
+                </td>
+                <td>
+                    <input id="select-value" type="number" style="width:50px;" value="15" min="0" max="60"/>
+                </td>
+                <td>
+                    <select id="select-units">
+                        <option value="d">Days</option>
+                        <option value="h">Hours</option>
+                        <option value="m" selected="selected">Minutes</option>
+                    </select>
+                </td>
+                <td>
+                    <select id="select-reference">
+                        <option value="b" selected="selected">Before Now</option>
+                        <option value="a">After Now</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    Refresh
+                </td>
+                <td>
+                    <input id="refresh-value" type="number" style="width:50px;" value="1" min="0" max="60"/>
+                </td>
+                <td>
+                    <select id="refresh-units">
+                        <option value="h">Hours</option>
+                        <option value="m" selected="selected">Minutes</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

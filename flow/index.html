@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+
+<html>
+
+<head>
+
+  <script src="javascript/ext_lib/jquery/2.1.1/jquery-2.1.1.js"></script>
+  <script src="javascript/ext_lib/jquery-ui/1.11.2/jquery-ui.js"></script>
+  <link rel="stylesheet" href="javascript/ext_lib/jquery-ui/1.11.2/jquery-ui.css" />
+
+  <script src="javascript/ext_lib/OpenLayers/OpenLayers-3.2.1/build/ol-debug.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="javascript/ext_lib/OpenLayers/OpenLayers-3.2.1/css/ol.css" type="text/css">
+
+  <script src="javascript/ext_lib/d3/3.4.8/d3.js"></script>
+
+  <script src="javascript/ext_lib/jquery-ui/plugins/jqplot/1.0.0.1095/jquery.jqplot.js"></script>
+  <script src="javascript/ext_lib/jquery-ui/plugins/jqplot/1.0.0.1095/jqplot.dateAxisRenderer.js"></script>
+  <script src="javascript/ext_lib/jquery-ui/plugins/jqplot/1.0.0.1095/jqplot.canvasAxisLabelRenderer.js"></script>
+  <script src="javascript/ext_lib/jquery-ui/plugins/jqplot/1.0.0.1095/jqplot.canvasTextRenderer.js"></script>
+  <script src="javascript/ext_lib/jquery-ui/plugins/jqplot/1.0.0.1095/jqplot.cursor.min.js"></script>
+  <script src="javascript/ext_lib/jquery-ui/plugins/jqplot/1.0.0.1095/jqplot.highlighter.min.js"></script>
+  <script src="javascript/ext_lib/jquery-ui/plugins/jqplot/1.0.0.1095/jqplot.dragable.min.js"></script>
+  <script src="javascript/ext_lib/jquery-ui/plugins/jqplot/1.0.0.1095/jqplot.trendline.min.js"></script>
+  <script src="javascript/ext_lib/jquery-ui/plugins/jqplot/1.0.0.1095/jqplot.barRenderer.min.js"></script>
+  <link rel="stylesheet" href="javascript/ext_lib/jquery-ui/plugins/jqplot/1.0.0.1095/jquery.jqplot.css"/>
+  <script src="javascript/ext_lib/jquery-ui/plugins/collapsible/1.2/jquery.collapsible.min.js"></script>
+  <script src="javascript/ext_lib/jquery-ui/plugins/jqrangeslider/5.7.1/jQAllRangeSliders-min.js"></script>
+  <link rel="stylesheet" href="javascript/ext_lib/jquery-ui/plugins/jqrangeslider/5.7.1/css/iThing-min.css"/>
+  <script src="javascript/ext_lib/jquery-ui/plugins/datetimepicker/2.3.7/jquery.datetimepicker.js"></script>
+  <link rel="stylesheet" href="javascript/ext_lib/jquery-ui/plugins/datetimepicker/2.3.7/jquery.datetimepicker.css"/>
+
+  <script type="text/javascript" src="ral.js"></script>
+  <link rel="stylesheet" href="ral.css"/>
+  <link rel="stylesheet" href="main.css" />
+
+</head>
+
+<body onload="run()">
+
+  <div id="menu" style="border:1px solid black; border-radius:5px; width:250px;height:350px !important;position:absolute;left:20px;top:20px;padding:10px;overflow-y:auto;"></div>
+  <div id="fcstCycle" style="border:1px solid black; border-radius:5px; width:250px;height:210px !important;position:absolute;left:20px;top:400px;padding:0px 10px 10px 10px;">
+    <table style="width:100%;border:0px;">
+      <tr><th colspan=2><h1 class="CollapsibleLayerControlsMenu">Observation Legend</h1></th></tr>
+      <tr><td><image src="alertIcon.png"></td><td><h2 class="CollapsibleLayerControlsMenu">Danger Stage</h2></td></tr>
+      <tr><td><image src="warningIcon.png"></td><td><h2 class="CollapsibleLayerControlsMenu">Warning Stage</h2></td></tr>
+      <tr><td><image src="normalIcon.png"></td><td><h2 class="CollapsibleLayerControlsMenu">Normal Stage</h2></td></tr>
+     <tr><td><image src="staleIcon.png"></td><td><h2 class="CollapsibleLayerControlsMenu">No Data</h2></td></tr>
+    </table>
+  </div>
+  <div id="map" style="border:1px solid black;border-radius:5px;width:800px;height:600px;position:absolute;left:300px;top:20px;">
+    <div id="popup"></div>
+  </div>
+  <div id="timeLabel" style="padding-top:25px;border:1px solid black;border-radius:5px;width:150px;height:45px;position:absolute;left:20px;top:638px;"></div>
+  <div id="animationControls" style="border:1px solid black;border-radius:5px;width:265px;height:50px;position:absolute;left:180px;top:630px;"></div>
+  <div id="timeSelector" style="border:1px solid black;border-radius:5px;width:605px;height:50px;position:absolute;left:475px;top:630px;padding:10px;"></div>
+  <div id="plot1" style="border:1px solid black;border-radius:5px;width:609px;height:460px;position:absolute;left:20px;top:725px;">
+    <div id="plot1Text" class="plotText"><p>Click an observation site on the map<br>to view its timeseries.</p></div>
+    <img id="plot1Error" src="noDataAvailable.png" style="display:none;width:128px;height:128px;margin:100px auto;"/>
+    <img id="plot1Img" src="blank.png" style="display:none;width:595px;height:446px;margin:7px"/> <!-- size= 520x390 (65% of 800x600) -->
+  </div>
+  <div id="plot2" style="border:1px solid black;border-radius:5px;width:460px;height:460px;position:absolute;left:639px;top:725px;">
+    <div id="plot2Text" class="plotText"><p>Click an observation site on the map<br>to view its timeseries.</p></div>
+    <img id="plot2Error" src="noDataAvailable.png" style="display:none;width:128px;height:128px;margin:100px auto;"/>
+    <img id="plot2Img" src="blank.png" style="display:none;width:446px;height:446px;margin:7px"/> <!-- size= 520x390 (65% of 800x600) -->
+  </div>
+  <div id="plot3" style="border:1px solid black; border-radius:5px; width:1060px;height:400px !important;position:absolute;left:20px;top:1195px;padding:0px 10px 10px 10px;  ">
+    <div id="plot3Text" class="plotText"><p>Click an observation site on the map<br>to view its timeseries.</p></div>
+    <div id="plot3Div" style="display:none;width:1060px;height:386px;margin:7px"></div>
+    <!-- size= 520x390 (65% of 800x600) -->
+    <a id="plot3Download" style="display:none;position:absolute;right:10px;bottom:10px;border:1px solid black; border-radius:5px;padding:4px;">
+      <img src="download.png" width="32" height="32" style="title:'Download CSV data..."/>
+    </a>
+  </div>
+  <!--div id="plot2" style="border:1px solid black;border-radius:5px;width:500px;height:320px;position:absolute;left:1110px;top:353px;">
+    <div id="plotGrid" style="width:100%;height:100%;"></div>
+    <div id="plotGridLinks" style="position:relative;left:75%;top:-100%;width:25%;height:55px;"></div>
+  </div>
+  <div id="tools" style="width:500px;height:22px;position:absolute;left:1110px;top:680px;">
+    <a id="exportMapImageButton" download="WRF Hydro Map.png" class="button">Save Map Image</a>
+    <a id="calculateStatistics" class="button" onClick="alert('Not yet implemented')">Calculate Time Series Statistics</a>
+  </div-->
+</body>
+
+<div id="timeConfig">
+</div>
+
+</html>
+
+<div id="disclaimer">
+  <p class="DisclaimerText">
+    This web site provides observed and experimental forecasts of river stage throughout the Ganges and Brahmaputra basins. 
+    It is funded as part of a <a href="http://worldbank.org" target="WORLDBANK.ORG">World Bank Group</a> research project.<br>&nbsp;<br>
+ 
+    Data are not official weather or stage forecasts and may be subject to intermittent outages. Viewers requiring official river stage observations and forecasts should consult 
+    the <a href="http://india-water.gov.in" target="INDIAWATER.GOV.IN">Indian Central Water Commission</a>, 
+    the <a href="http://www.ffwc.gov.bd" target="http://WWW.FFWC.GOV.BD">Bangladesh Flood Forecasting & Warning Centre</a>, 
+    and the <a href="http://www.hydrology.gov.np" target="http://WWW.HYDROLOGY.GOV.NP">Government of Nepal Flood Forecasting Project</a>.
+  </p>
+</div>

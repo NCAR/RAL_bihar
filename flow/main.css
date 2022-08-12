@@ -1,0 +1,113 @@
+.TimeLabel
+{
+  font-size: 12pt;
+}
+
+.DefaultLayerControls
+{
+  border       : 0px;
+  margin       : 0px;
+  padding      : 0px;
+  overflow     : hidden;
+  overflow-y   : auto;
+}
+
+.DefaultLayerControls_displayName
+{
+  font-size: 10pt;
+}
+
+.CollapsibleLayerControlsMenu_main
+{
+  width: 240px;
+  height: auto;
+  overflow: auto;
+}
+
+.DisclaimerText
+{
+  font-family:Avenir, Arial, Helvetica, sans-serif;
+  font-size: 13pt;
+  color:#333333;
+  link: #005580;
+  text-align: center;
+  text-decoration: none;
+}
+
+h1.CollapsibleLayerControlsMenu
+{
+  font-size:13pt;
+  font-family:avenir;
+  text-decoration: underline;
+  text-align: center;
+}
+
+h2.CollapsibleLayerControlsMenu
+{
+  font-size:10pt;
+  font-family:avenir;
+}
+
+.jqplotDownloadLink
+{
+  font-family:avenir,arial;
+  font-size: 0.7em;
+  float:right;
+  padding-right:10px;
+}
+
+.button
+{
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  background-color: #f5f5f5;
+  background-image: linear-gradient(to bottom, #fff, #e6e6e6);
+  background-repeat: repeat-x;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) #b3b3b3;
+  border-image: none;
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+  color: #333;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 0;
+  padding: 4px 12px;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  vertical-align: middle;
+  font-family: avenir, arial;
+}
+
+/* D3JSTimeSelector axis formatting */
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000000;
+  shape-rendering: crispEdges;
+}
+
+#popup {
+  background-color: #CCCCFF;
+  padding: 5px;
+  border:1px solid black;
+  border-radius:5px;
+}
+
+div.plotText {
+    height: 10em;
+    position: relative }
+div.plotText p {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    text-align: center
+}

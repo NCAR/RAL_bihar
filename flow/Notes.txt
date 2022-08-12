@@ -1,0 +1,14 @@
+# To export and re-import (destructively) the entire MySQL installation, including the mysql user tables, use these commands:
+mysqldump -h indiawbg -u root -p --all-databases --skip-lock-tables > /tmp/allDBs.sql
+mysql -h db -u root -p < /tmp/allDBs.sql
+
+# To export and re-import (destructively) just the dynamic observations table, use these commands:
+mysqldump -h indiawbg -u indiaWBG -p indiaWBG observations > /tmp/observations.sql
+mysql -h db -u indiaWBG -p indiaWBG <  /tmp/observations.sql
+
+# The Data directories which will need to be refreshed, and their sizes/frequencies are:
+archive (33GB of static data located at ../../data/archive)
+Forecast_tfq_CSV (1.7GB of data located at ../../data/Forecast_tfq_CSV, 269 directories contain 2 types of 1KB CSV daily files, with 5 days updated at 15:00MDT daily by Tom's models)
+gbm (2.2GB of dynamic data located at /var/autofs/mnt/gisdata-forecast/outputGBM, one directory with 199 files of up to 3MB geojson, regenerated randomly by Jenn's script)
+timeSeriesPlots (18M of dynamic data located at ../../data/timeSeriesPlots, 315 png files up to 120KB, regenerated hourly) 
+TimeSeriesPlotsQC (23M of dynamic data located at ../../data/TimeSeriesPlotsQC, 296 png files up to 120KB, regenerated hourly)
